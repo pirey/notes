@@ -1,0 +1,42 @@
+@document.meta
+title: auto-hot-key
+description:
+authors:
+categories:
+created: 2023-12-06T12:19:25+0700
+updated: 2023-12-06T12:22:54+0700
+version: 1.1.1
+@end
+
+* Overview
+
+  I'm using {https://www.autohotkey.com/}[Auto Hot Key] to remap keys when I'm working on Windows machine.
+  Primarily I need to remap CapsLock key to escape since I'm using vim a lot.
+
+* Remap `CapsLock` as `Ctrl`, and `CapsLock+[` as `Escape` key
+
+  This is the simplest solution with only a single drawback, I need to use key combination to trigger `Escape`: `Ctrl+[`, or in this case `CapsLock+[`.
+
+  @code ahk
+  CapsLock::Ctrl
+  Ctrl & [::Esc
+  @end
+
+* Remap `CapsLock` as `Escape`, and when held down and combined with other keys, treat it as `Ctrl`
+
+  This is more intricate and hacky as it relies on some kind of timer to detect the `CapsLock` is being held down.
+  The drawback is sometimes when I press the key too fast (and most of the time I'm fast!), the `CapsLock` is treated as `Escape` instead of `Ctrl`.
+
+  @code ahk
+  *CapsLock::
+  Send {Blind}{Ctrl Down}
+  cDown := A_TickCount
+  Return
+
+  *CapsLock up::
+  If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
+  Send {Blind}{Ctrl Up}{Esc}
+  Else
+  Send {Blind}{Ctrl Up}
+  Return
+  @end
