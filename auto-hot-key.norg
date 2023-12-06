@@ -4,7 +4,7 @@ description:
 authors:
 categories:
 created: 2023-12-06T12:19:25+0700
-updated: 2023-12-06T12:22:54+0700
+updated: 2023-12-06T13:42:53+0700
 version: 1.1.1
 @end
 
@@ -34,7 +34,7 @@ version: 1.1.1
   Return
 
   *CapsLock up::
-  If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
+  If ((A_TickCount-cDown)<100)  ; Modify press time as needed (milliseconds)
   Send {Blind}{Ctrl Up}{Esc}
   Else
   Send {Blind}{Ctrl Up}
